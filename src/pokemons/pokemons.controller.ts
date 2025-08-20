@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode } from '@nestjs/common';
 import { PokemonsService } from './pokemons.service';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
@@ -8,28 +8,32 @@ export class PokemonsController {
   constructor(private readonly pokemonsService: PokemonsService) {}
 
   @Post()
-  create(@Body() createPokemonDto: CreatePokemonDto) {
-    return this.pokemonsService.create(createPokemonDto);
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() createPokemonDto: CreatePokemonDto) {
+    return await this.pokemonsService.create(createPokemonDto);
   }
 
   @Get()
-  findAll() {
-    return this.pokemonsService.findAll();
+  @HttpCode(HttpStatus.OK)
+  async findAll() {
+    return await this.pokemonsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const pokemonDto = this.pokemonsService.findOne(+id);
-    return pokemonDto;
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('id') id: string) {
+    return await this.pokemonsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
+  @HttpCode(HttpStatus.OK)
+  async update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
     return this.pokemonsService.update(+id, updatePokemonDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pokemonsService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id') id: string) {
+    return await this.pokemonsService.remove(+id);
   }
 }
