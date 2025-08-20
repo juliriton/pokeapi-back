@@ -5,23 +5,33 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("LOCAL_DATABASE_URL")
 }
 
 model Pokemon {
-  id         Int    @id @default(autoincrement())
-  name       String @unique
+  id         Int       @id @default(autoincrement())
+  uuid       String    @default(uuid())
+  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime  @default(now())
+  name       String    @unique
+  type       String
   generation Int
+  imageUrl   String    
+  abilities  Ability[]
 }
 
 model Trainer {
-  id        Int    @id @default(autoincrement())
-  name      String @unique
-  specialty String
+  id        Int       @id @default(autoincrement())
+  uuid      String    @default(uuid())
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
+  name      String    @unique
+  type      String
+  imageUrl  String   
 }
 
 model Ability {
-  id         Int    @id @default(autoincrement())
-  name       String @unique
-  generation Int
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  pokemons Pokemon[]
 }
