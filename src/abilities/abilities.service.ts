@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAbilityDto } from './dto/create-ability.dto';
-import { UpdateAbilityDto } from './dto/update-ability.dto';
+import { handlePrismaError } from 'src/common/utils/prisma-error.util';
+import { ReadAbilityDto } from './dto/read-ability.dto';
+import { Ability } from 'generated/prisma';
+import { PrismaRepository } from 'src/prisma/prisma.repository';
 
 @Injectable()
 export class AbilitiesService {
-  create(createAbilityDto: CreateAbilityDto) {
-    return 'This action adds a new ability';
+  constructor(private prisma: PrismaRepository) {}
+
+  private mapToReadAbilityDto(ability: Ability): ReadAbilityDto {
+    const abilityDto = new ReadAbilityDto();
+    abilityDto.name = ability.name;
+    return abilityDto;
   }
 
-  findAll() {
-    return `This action returns all abilities`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} ability`;
-  }
-
-  update(id: number, updateAbilityDto: UpdateAbilityDto) {
-    return `This action updates a #${id} ability`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} ability`;
+  async findAll() {
+    try {
+      const abilities = await this.prisma.ability.findMany();
+      return abilities.map((ability) => this.mapToReadAbilityDto(ability)); 
+    } catch (e) {
+      handlePrismaError(e);
+    }
   }
 }

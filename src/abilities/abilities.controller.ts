@@ -1,34 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { AbilitiesService } from './abilities.service';
-import { CreateAbilityDto } from './dto/create-ability.dto';
-import { UpdateAbilityDto } from './dto/update-ability.dto';
+import { PokemonsService } from 'src/pokemons/pokemons.service';
 
 @Controller('abilities')
 export class AbilitiesController {
-  constructor(private readonly abilitiesService: AbilitiesService) {}
-
-  @Post()
-  create(@Body() createAbilityDto: CreateAbilityDto) {
-    return this.abilitiesService.create(createAbilityDto);
-  }
+  constructor(private readonly abilitiesService: AbilitiesService,
+              private readonly pokemonService: PokemonsService
+  ) {}
 
   @Get()
-  findAll() {
-    return this.abilitiesService.findAll();
+  @HttpCode(HttpStatus.OK)
+  async findAll() {
+    return await this.abilitiesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.abilitiesService.findOne(+id);
+  @Get('pokemons/:ability')
+  @HttpCode(HttpStatus.OK)
+  async findAllPokemonsWithAbility(@Param('ability') ability: string) {
+    return await this.pokemonService.findAllWithAbility(ability);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAbilityDto: UpdateAbilityDto) {
-    return this.abilitiesService.update(+id, updateAbilityDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.abilitiesService.remove(+id);
-  }
 }
