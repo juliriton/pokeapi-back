@@ -11,19 +11,17 @@ datasource db {
 model Pokemon {
   id         Int    @id @default(autoincrement())
   name       String @unique
-  imageUrl   String @unique
   generation Int
 }
 
 model Trainer {
   id        Int    @id @default(autoincrement())
-  name      String
-  imageUrl   String @unique
+  name      String @unique
   specialty String
 }
 
 model Ability {
   id         Int    @id @default(autoincrement())
-  name       String
+  name       String @unique
   generation Int
 }

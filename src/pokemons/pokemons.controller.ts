@@ -19,7 +19,8 @@ export class PokemonsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pokemonsService.findOne(+id);
+    const pokemonDto = this.pokemonsService.findOne(+id);
+    return pokemonDto;
   }
 
   @Patch(':id')
