@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { TrainersService } from './trainers.service';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UpdateTrainerDto } from './dto/update-trainer.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('trainers')
 export class TrainersController {
@@ -10,11 +9,9 @@ export class TrainersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('image'))
-  async create(
-    @Body() createTrainerDto: CreateTrainerDto,
-    @UploadedFile() file: Express.Multer.File
-  ) {
+  @UseInterceptors()
+  async create(@Param('id') id: string, @Body() createTrainerDto: CreateTrainerDto) {
+    return await this.trainersService.create(createTrainerDto);
   }
 
   @Get()

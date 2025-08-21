@@ -5,13 +5,13 @@ export class CreatePokemonDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(1)
-    @Transform(({ value }) => value.trim())
+    @Transform(({ value }) => value.trim().toLowerCase())
     name: string
 
     @IsNotEmpty()
     @IsString()
     @MinLength(1)
-    @Transform(({ value }) => value.trim())
+    @Transform(({ value }) => value.trim().toLowerCase())
     type: string
 
     @Min(1)
@@ -19,10 +19,13 @@ export class CreatePokemonDto {
 
     @IsNotEmpty()
     @IsString()
+    @MinLength(1)
+    @Transform(({ value }) => value.trim().toLowerCase())
     imageUrl: string;
 
     @IsArray()
     @IsString({ each: true })
     @ArrayMinSize(1)
+    @Transform(({ value }) => value.map(ability => ability.trim().toLowerCase()))
     abilities: string[];
 }

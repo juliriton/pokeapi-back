@@ -5,13 +5,13 @@ export class CreateTrainerDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(1)
-    @Transform(({ value }) => value.trim())
+    @Transform(({ value }) => value.trim().toLowerCase())
     name: string
 
     @IsNotEmpty()
     @IsString()
     @MinLength(1)
-    @Transform(({ value }) => value.trim())
+    @Transform(({ value }) => value.trim().toLowerCase())
     type: string
 
     @IsNotEmpty()

@@ -7,5 +7,6 @@ import { PokemonsController } from './pokemons.controller';
   imports: [PrismaModule],
   controllers: [PokemonsController],
   providers: [PokemonsService],
+  exports: [PokemonsService]
 })
 export class PokemonsModule {}
