@@ -11,11 +11,7 @@ export class UploadService {
       throw new BadRequestException('No file uploaded');
     }
     
-    const storagePath = this.configService.get<string>('LOCAL_STORAGE_PATH') || './uploads';
-
-    const cleanPath = storagePath.replace(/^\.\//, '');
-
-    const imageUrl = `${cleanPath}/${file.filename}`;
+    const imageUrl = `/uploads/${file.filename}`;
 
     const uploadDto = new ReadUploadDto();
     uploadDto.url = imageUrl;

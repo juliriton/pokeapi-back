@@ -17,8 +17,12 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true
     }),
     ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'uploads'),
+      rootPath: path.resolve(__dirname, '..', '..', 'uploads'),
       serveRoot: '/uploads',
+      serveStaticOptions: {
+        index: false,
+        fallthrough: false
+      }
     }),
   ],
   controllers: [],
