@@ -1,5 +1,5 @@
 services:
-  db:
+  pokeapi-db:
     image: postgres:16
     container_name: postgres
     ports:
@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: pokeapi
+      POSTGRES_DB: pokeapi-db
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
